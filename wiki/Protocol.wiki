@@ -7,4 +7,12 @@ This page is a quick protocol idea drafting page for shbot.
 = Details =
 == Requests ==
 === LOGIN ===
-Will accept 2 arguments, username and password. Not much to question here
+Will accept 2 arguments, username and password. Not much to question here.
+
+== Replies ==
+=== CAPTCHA ===
+Rest of reply will contain the image in png format
+=== TIMER ===
+Will pass back the amount of time to sleep for.
+=== RETURN ===
+Passes back the data that has actually been requested, this is good. :)

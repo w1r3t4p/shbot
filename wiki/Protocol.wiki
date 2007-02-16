@@ -8,6 +8,24 @@ This page is a quick protocol idea drafting page for shbot.
 == Requests ==
 === LOGIN ===
 Will accept 2 arguments, username and password. Not much to question here.
+=== LOGINSLAVE ===
+Logs into a slave, returns true if it works
+=== GETSLAVES ===
+Gets the slavelist page, dumps IPs off it, returns these IPs, takes no params.
+=== CRACKIP ===
+Cracks a slave's password by IP, returns true if it works
+=== CLEARLOGS ===
+Clears a slave's logs takes IP as param, returns true if it works
+=== CLEARLOCALLOGS ===
+Clears the local logs, returns true.
+=== EXTRACT_LOGS ===
+Returns IPs in current machines logs, takes IP as param.
+=== EXTRACT_LOGS_BANK ===
+Returns a list of bank #s from the current machines logs, machines IP as param.
+=== HUNT ===
+Broken, non working thing that will make the bot go into auto mode, all too destructive.
+=== UPLOAD ===
+Broken, will upload to machines.
 
 == Replies ==
 === CAPTCHA ===

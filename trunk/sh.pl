@@ -1,4 +1,7 @@
 #!/usr/bin/perl
+package shbot;
+
+use base qw(Net::Server);
 use warnings;
 use WWW::Mechanize;
 use DBI;
@@ -8,29 +11,34 @@ my $mech = WWW::Mechanize->new();
 $mech->agent_alias( 'Windows IE 6' );
 sub runtimer {
 	if ($mech->content =~ /if \(i\d*<=\((\d*)\)/) { 
-		print "Sleeping for $1" . "\n";
+		print "TIMER $1" . "\n";
 		sleep($1);
 	} else { return 0; }
 	if ($mech->content =~ /(WorkForm\d*)/) { 
-		print "Using Form: $1\n";
+#		print "Using Form: $1\n";
 		$mech->submit_form( form_name =>  $1 );
 	} else { return 0; }
 	return 1;
 }
 
+sub crep {
+	my $captret = shift;
+                $mech->submit_form(
+                        form_number => 2,
+                        fields    => {
+                                            nummer  => $captret
+                                     },
+                 );
+}
+
+
 sub captcha {
 	if ($mech->content( format => "text" ) =~ /repeat the numbers/) {
 		$mech->get ("http://www.slavehack.com/workimage.php");
-		$mech->save_content( "workimage.png" );
-		print "Enter The Captcha\n Then Press enter followed by ctrl+d\n";
-		system ("display workimage.png");
+		print "CAPTCHA" .  # $mech->content; removed for testing, since client is _not_ working yet.
+		$mech->save_content ("workimage.png");
+ 		system ("display workimage.png");
 		$mech->back;
-		$mech->submit_form(
-		        form_number => 2,
-		        fields    => {
-		                            nummer  => <STDIN>
-		                     },
-		 );
 	}
 }
 
@@ -43,7 +51,6 @@ sub login {
 				loginpas => shift
 	                 },
 	);
-	print "Logged in \n Checking For Captcha \n";
 	captcha();
 	if ($mech->content( format => "text" ) =~ /My computer password/) { return 1; }
 	else { return 0; }
@@ -58,12 +65,11 @@ sub loginslave {
 sub getslaves {
 	$mech->get( 'http://www.slavehack.com/index2.php?page=slaves' );
 	captcha();
+	my $toret;
 	foreach ($mech->content( format => "text" ) =~ m/(\d*\.\d*\.\d*\.\d*)/g) { 
-		$dbh->do("INSERT OR IGNORE INTO slaves VALUES('$_', 1, 0)") || print "already in DB";
+		$toret = $toret . " " . $_;
 	}
-	if ($mech->content =~ /\[(\d*\.\d*\.\d*\.\d*)\]/) {
-		$dbh->do("UPDATE slaves SET stat=2 WHERE ip='$1'");
-	}
+	return $toret;
 }
 
 sub crackip {
@@ -73,11 +79,10 @@ sub crackip {
 	runtimer();
 }
 
-sub clearlogs {
+sub clear_logs {
 	my $iptoclear = shift;
         $mech->get( "http://www.slavehack.com/index2.php?page=internet&gow=$iptoclear&action=log" );
         captcha();
-	#print $mech->form_with_fields( qw(logedit) );
         $mech->submit_form(
                 form_number => 2,
                 fields => {
@@ -88,7 +93,7 @@ sub clearlogs {
         runtimer();
 }
 
-sub clearlocallogs {
+sub clear_local_logs {
 	$mech->get( 'http://www.slavehack.com/index2.php?page=logs' );
 	captcha();
 	$mech->submit_form(
@@ -106,11 +111,13 @@ sub extract_logs {
 	print "Extracting logs from $iptoextract\n";
 	$mech->get( "http://www.slavehack.com/index2.php?page=internet&gow=$iptoextract&action=log" );
 	captcha();
+	my $toret;
 	if ($mech->content =~ /<textarea class=form name=logedit rows=35 cols=100>(.*)<\/textarea>/s) {
 		foreach ($1 =~ m/(\d*\.\d*\.\d*\.\d*)/g) {
-	                $dbh->do("INSERT OR IGNORE INTO slaves VALUES('$_', 0, 0)");
+			$toret = $toret . " " . $_;
 		}
 	}
+	return $toret;
 }
 
 sub extract_logs_bank {
@@ -118,11 +125,13 @@ sub extract_logs_bank {
         print "Extracting logs from $iptoextract\n";
         $mech->get( "http://www.slavehack.com/index2.php?page=internet&gow=$iptoextract&action=log" );
         captcha();
+	my $toret;
         if ($mech->content =~ /<textarea class=form name=logedit rows=35 cols=100>(.*)<\/textarea>/s) {
                 foreach ($1 =~ m/(\d\d\d\d\d\d)/g) {
-                        print $_ . "\n";
+                        $toret = $toret . " " . $_;
                 }
         }
+	return $toret;
 }
 
 sub hunt {
@@ -151,18 +160,24 @@ sub upload {
 	my $uplform = $mech->form_number(2);
 	my $inp = $uplform->find_input("upload");
 	for ($inp->value_names) {print $_ . "\n";};
-#	my @badcode = split("option", $mech->content);  # Ok, this is getting a little messy, but this is the only way I could make the regex match seperately
-#	for (@badcode) { 
-#		if ($_ =~ /class=form value=(\d*)>(.*)<?/) { print $1 . ":" . $2 . "\n";}
-#	}
-#	foreach ($mech->content =~ m/<option class=form value=(\d*)>(.*)<?/gs ) {
-#		print $_ .  "\n";
-#	}
 }
-my $login = login('ultramancool', 'hexalintbag');
-#clearlocallogs();
-#hunt();
-loginslave("132.21.163.202");
-upload("132.21.163.202");
-#extract_logs_bank("135.132.154.124");
-#clearlogs("134.132.154.124");
+
+sub process_request {
+     my $self = shift;
+     while (<STDIN>) {
+        s/\r?\n$//; # A little house keeping, replaces \r with \n in $_
+	my @command = split(/ /, $_);
+	if ($command[0] eq "LOGIN") { print "RETURN " . login($command[1], $command[2]); }
+	elsif ($command[0] eq "CAPRET") { crep($command[1]); }
+	elsif ($command[0] eq "GETSLAVES") { print "RETURN " . getslaves(); } 
+	elsif ($command[0] eq "LOGINSLAVE") { loginslave($command[1]); print "RETURN 1"; } #Note to add error detection!!!
+	elsif ($command[0] eq "CRACKIP") { crackip($command[1]); print "RETURN 1"; } #Note to add error detection!!!
+        elsif ($command[0] eq "EXTRACT_LOGS") { print "RETURN " . extract_logs($command[1]); }
+	elsif ($command[0] eq "EXTRACT_LOGS_BANK") { print "RETURN " . extract_logs_bank($command[1]); }
+	elsif ($command[0] eq "CLEAR_LOGS") { clear_logs($command[1]); print "RETURN 1";}
+	elsif ($command[0] eq "CLEAR_LOCAL_LOGS") { clear_local_logs(); print "RETURN 1"; }
+	else { print "RETURN 0" } 
+        last if /QUIT/i; # Drop connection on QUIT
+     }
+}
+shbot->run(port => 9988);

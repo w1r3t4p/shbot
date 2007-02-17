@@ -44,7 +44,7 @@ Passes back the data that has actually been requested, this is good. :)
 || *Client* || *Server* ||
 ||LOGIN user password || RETURN 1||
 ||GETSLAVES || CAPTCHA _PNG IMAGE_||
-||CREP _HUMAN READ CAPTCHA_ || RETURN 1||
+||CAPTRET _HUMAN READ CAPTCHA_ || RETURN 1|| Actually, there's a bug here...
 ||LOGINSLAVE 1.1.1.1 || RETURN 1||
 ||EXTRACT_LOGS || RETURN  2.2.2.2 3.3.3.3||
 ||CRACKIP 2.2.2.2 || RETURN 1||

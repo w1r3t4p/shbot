@@ -26,6 +26,8 @@ Returns a list of bank #s from the current machines logs, machines IP as param.
 Broken, non working thing that will make the bot go into auto mode, all too destructive.
 === UPLOAD ===
 Broken, will upload to machines.
+=== CREP ===
+
 
 == Replies ==
 === CAPTCHA ===
@@ -34,3 +36,13 @@ Rest of reply will contain the image in png format
 Will pass back the amount of time to sleep for.
 === RETURN ===
 Passes back the data that has actually been requested, this is good. :)
+
+= Example =
+LOGIN user password
+RETURN 1
+GETSLAVES
+CAPTCHA *** IMAGE CONTENT ***
+CREP *** HUMAN READ CAPTCHA ***
+*Since captcha succeeds, backend continues to run GETSLAVES* 
+RETURN 1
+ 

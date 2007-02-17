@@ -4,9 +4,6 @@ package shbot;
 use base qw(Net::Server);
 use warnings;
 use WWW::Mechanize;
-use DBI;
-$dbh = DBI->connect("dbi:SQLite:dbname=sh.db", "", "",
-                    { RaiseError => 1, AutoCommit => 1 });
 my $mech = WWW::Mechanize->new();
 $mech->agent_alias( 'Windows IE 6' );
 sub runtimer {
@@ -130,25 +127,6 @@ sub extract_logs_bank {
                 }
         }
 	return $toret;
-}
-
-sub hunt {
-	getslaves();
-	my $all = $dbh->selectall_arrayref("SELECT ip FROM slaves WHERE stat=1");
-	foreach my $row (@$all) {
-		my $ip = @$row;
-		print $ip . "SLAVE";
-		loginslave($ip);
-		extract_logs($ip);
-	        my $run = $dbh->selectall_arrayref("SELECT ip FROM slaves WHERE stat=0");
-	        foreach my $row2 (@$run) {
-        	        my $ip2 = @$row2;
-			print $ip2 . "noob";
-			crackip($ip2);
-	                loginslave($ip2);
-	                extract_logs($ip2);
-	        }
-	}
 }
 
 sub upl_list {

@@ -17,12 +17,14 @@ Gets the slavelist page, dumps IPs off it, returns these IPs, takes no params.
 Cracks a slave's password by IP, returns true if it works
 === CLEARLOGS ===
 Clears a slave's logs takes IP as param, returns true if it works
-=== CLEARLOCALLOGS ===
+=== CLEAR_LOCAL_LOGS ===
 Clears the local logs, returns true.
 === EXTRACT_LOGS ===
 Returns IPs in current machines logs, takes IP as param.
 === EXTRACT_LOGS_BANK ===
 Returns a list of bank #s from the current machines logs, machines IP as param.
+=== UPL_LIST ===
+Returns a list of software that could possibly be uploaded in the format id:name, comma separated.
 === HUNT ===
 Broken, non working thing that will make the bot go into auto mode, all too destructive.
 === UPLOAD ===

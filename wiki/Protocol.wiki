@@ -15,7 +15,7 @@ Logs into a slave, returns true if it works
 Gets the slavelist page, dumps IPs off it, returns these IPs, takes no params.
 === CRACKIP ===
 Cracks a slave's password by IP, returns true if it works
-=== CLEARLOGS ===
+=== CLEAR_LOGS ===
 Clears a slave's logs takes IP as param, returns true if it works
 === CLEAR_LOCAL_LOGS ===
 Clears the local logs, returns true.

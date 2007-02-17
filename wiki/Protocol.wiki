@@ -15,27 +15,27 @@ Logs into a slave, returns true if it works
 Gets the slavelist page, dumps IPs off it, returns these IPs, takes no params.
 === CRACKIP ===
 Cracks a slave's password by IP, returns true if it works
-=== CLEARLOGS === 
+=== CLEARLOGS ===
 Clears a slave's logs takes IP as param, returns true if it works
-=== CLEARLOCALLOGS === 
+=== CLEARLOCALLOGS ===
 Clears the local logs, returns true.
 === EXTRACT_LOGS ===
 Returns IPs in current machines logs, takes IP as param.
-=== EXTRACT_LOGS_BANK === 
+=== EXTRACT_LOGS_BANK ===
 Returns a list of bank #s from the current machines logs, machines IP as param.
-=== HUNT === 
+=== HUNT ===
 Broken, non working thing that will make the bot go into auto mode, all too destructive.
 === UPLOAD ===
 Broken, will upload to machines.
-=== CAPRET === 
+=== CAPRET ===
 Returns the code for a send captcha
 
 == Replies ==
-=== CAPTCHA === 
+=== CAPTCHA ===
 Rest of reply will contain the image in png format
-=== TIMER === 
+=== TIMER ===
 Will pass back the amount of time to sleep for.
-=== RETURN === 
+=== RETURN ===
 Passes back the data that has actually been requested, this is good. :)
 
 = Example =

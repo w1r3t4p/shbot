@@ -7,27 +7,27 @@ This page is a quick protocol idea drafting page for shbot.
 
 = Details =
 == Requests ==
-=== LOGIN === _IMP_
+=== LOGIN === 
 Will accept 2 arguments, username and password. Not much to question here.
-=== LOGINSLAVE === _IMP_
+=== LOGINSLAVE === 
 Logs into a slave, returns true if it works
-=== GETSLAVES === _IMP_
+=== GETSLAVES === 
 Gets the slavelist page, dumps IPs off it, returns these IPs, takes no params.
-=== CRACKIP === _IMP_ 
+=== CRACKIP === 
 Cracks a slave's password by IP, returns true if it works
-=== CLEARLOGS ===
+=== CLEARLOGS === [I]
 Clears a slave's logs takes IP as param, returns true if it works
-=== CLEARLOCALLOGS ===
+=== CLEARLOCALLOGS === [I]
 Clears the local logs, returns true.
-=== EXTRACT_LOGS ===_IMP_
+=== EXTRACT_LOGS ===
 Returns IPs in current machines logs, takes IP as param.
-=== EXTRACT_LOGS_BANK ===
+=== EXTRACT_LOGS_BANK === [I]
 Returns a list of bank #s from the current machines logs, machines IP as param.
-=== HUNT ===
+=== HUNT === [I]
 Broken, non working thing that will make the bot go into auto mode, all too destructive.
-=== UPLOAD ===
+=== UPLOAD === [I]
 Broken, will upload to machines.
-=== CAPRET === _IMP_
+=== CAPRET === 
 Returns the code for a send captcha
 
 == Replies ==

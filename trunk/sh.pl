@@ -160,7 +160,18 @@ sub upl_list {
 	my @sw = $inp->value_names;
 	my @ids = $inp->possible_values;
 	my $iter = 0;
-	foreach (@ids) { print $ids[$iter] . ":" . $sw[$iter] . " "; $iter++; }
+	my $toret;
+	foreach (@ids) { $toret = $toret . $ids[$iter] . ":" . $sw[$iter] . ","; $iter++; }
+	return $toret;
+}
+
+sub upload {
+	my $iptoupl = shift;
+	my $idtoupl = shift;
+	$mech->get ( "http://www.slavehack.com/index2.php?page=internet&gow=$iptoupl&action=files&aktie=upload" );
+	captcha();
+	$mech->submit_form(form_number => 2, fields => { upload  => $idtoupl, });
+	runtimer();
 }
 
 sub process_request {
@@ -177,7 +188,8 @@ sub process_request {
 	elsif ($command[0] eq "EXTRACT_LOGS_BANK") { print "RETURN " . extract_logs_bank($command[1]); }
 	elsif ($command[0] eq "CLEAR_LOGS") { clear_logs($command[1]); print "RETURN 1";}
 	elsif ($command[0] eq "CLEAR_LOCAL_LOGS") { clear_local_logs(); print "RETURN 1"; }
-	elsif ($command[0] eq "UPL_LIST") { return upl_list($command[1]);}
+	elsif ($command[0] eq "UPL_LIST") { print "RETURN " . upl_list($command[1]); }
+	elsif ($command[0] eq "UPLOAD") { upload($command[1], $command[2]); print "RETURN 1";}
 	else { print "RETURN 0" } 
         last if /QUIT/i; # Drop connection on QUIT
      }

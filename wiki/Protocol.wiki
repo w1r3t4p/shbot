@@ -38,7 +38,7 @@ Will pass back the amount of time to sleep for.
 Passes back the data that has actually been requested, this is good. :)
 
 = Example =
-||*Client* || *Server* ||
+|| *Client* || *Server* ||
 ||LOGIN user password || RETURN 1||
 ||GETSLAVES || CAPTCHA _PNG IMAGE_||
 ||CREP _HUMAN READ CAPTCHA_ || RETURN 1||

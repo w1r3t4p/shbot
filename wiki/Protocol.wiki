@@ -7,13 +7,13 @@ This page is a quick protocol idea drafting page for shbot.
 
 = Details =
 == Requests ==
-=== LOGIN === 
+=== LOGIN ===
 Will accept 2 arguments, username and password. Not much to question here.
-=== LOGINSLAVE === 
+=== LOGINSLAVE ==
 Logs into a slave, returns true if it works
-=== GETSLAVES === 
+=== GETSLAVES ===
 Gets the slavelist page, dumps IPs off it, returns these IPs, takes no params.
-=== CRACKIP === 
+=== CRACKIP ===
 Cracks a slave's password by IP, returns true if it works
 === CLEARLOGS === 
 Clears a slave's logs takes IP as param, returns true if it works

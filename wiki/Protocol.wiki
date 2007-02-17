@@ -38,6 +38,7 @@ Will pass back the amount of time to sleep for.
 Passes back the data that has actually been requested, this is good. :)
 
 = Example =
+{{{
 LOGIN user password
 RETURN 1
 GETSLAVES
@@ -45,4 +46,4 @@ CAPTCHA *** IMAGE CONTENT ***
 CREP *** HUMAN READ CAPTCHA ***
 *Since captcha succeeds, backend continues to run GETSLAVES* 
 RETURN 1
- 
+}}}

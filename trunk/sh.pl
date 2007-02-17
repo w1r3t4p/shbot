@@ -15,7 +15,6 @@ sub runtimer {
 		sleep($1);
 	} else { return 0; }
 	if ($mech->content =~ /(WorkForm\d*)/) { 
-#		print "Using Form: $1\n";
 		$mech->submit_form( form_name =>  $1 );
 	} else { return 0; }
 	return 1;
@@ -58,7 +57,6 @@ sub login {
 
 sub loginslave {
 	my $iptologin = shift;
-	print "logging to $iptologin\n";
 	$mech->get( "http://www.slavehack.com/index2.php?page=internet&gow=$iptologin&action=login" );
 	$mech->submit_form( form_number => 2 );
 }
@@ -153,19 +151,22 @@ sub hunt {
 	}
 }
 
-sub upload {
+sub upl_list {
 	my $iptoupl = shift;
 	$mech->get ( "http://www.slavehack.com/index2.php?page=internet&gow=$iptoupl&action=files&aktie=upload" );
 	captcha();
 	my $uplform = $mech->form_number(2);
 	my $inp = $uplform->find_input("upload");
-	for ($inp->value_names) {print $_ . "\n";};
+	my @sw = $inp->value_names;
+	my @ids = $inp->possible_values;
+	my $iter = 0;
+	foreach (@ids) { print $ids[$iter] . ":" . $sw[$iter] . " "; $iter++; }
 }
 
 sub process_request {
      my $self = shift;
      while (<STDIN>) {
-        s/\r?\n$//; # A little house keeping, replaces \r with \n in $_
+     	chomp;
 	my @command = split(/ /, $_);
 	if ($command[0] eq "LOGIN") { print "RETURN " . login($command[1], $command[2]); }
 	elsif ($command[0] eq "CAPRET") { crep($command[1]); }
@@ -176,6 +177,7 @@ sub process_request {
 	elsif ($command[0] eq "EXTRACT_LOGS_BANK") { print "RETURN " . extract_logs_bank($command[1]); }
 	elsif ($command[0] eq "CLEAR_LOGS") { clear_logs($command[1]); print "RETURN 1";}
 	elsif ($command[0] eq "CLEAR_LOCAL_LOGS") { clear_local_logs(); print "RETURN 1"; }
+	elsif ($command[0] eq "UPL_LIST") { return upl_list($command[1]);}
 	else { print "RETURN 0" } 
         last if /QUIT/i; # Drop connection on QUIT
      }

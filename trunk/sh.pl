@@ -152,24 +152,45 @@ sub upload {
 	runtimer();
 }
 
+sub virinstlist {
+	my $iptoinst = shift;
+	$mech->get( "http://www.slavehack.com/index2.php?page=internet&gow=$iptoinst&action=files" );
+	my $toret;
+        foreach ($mech->content =~ m/a href=index2.php\?page=internet&gow=.*&action=files&aktie=install&virus=(\d*)/g) {
+        	$toret = $toret . " " . $_;
+	}
+	return $toret;
+}
+
+sub virinst {
+	my $iptoinst = shift;
+	my $idtoinst = shift;
+	$mech->get( "http://www.slavehack.com/index2.php?page=internet&gow=$iptoinst&action=files&aktie=install&virus=$idtoinst" );
+	print $mech->content;
+	runtimer();
+	return 1;
+}
+
 sub process_request {
      my $self = shift;
      while (<STDIN>) {
      	chomp;
 	my @command = split(/ /, $_);
 	if ($command[0] eq "LOGIN") { print "RETURN " . login($command[1], $command[2]); }
-	elsif ($command[0] eq "CAPRET") { crep($command[1]); }
+	elsif ($command[0] eq "CAPRET") { crep($command[1]); } 
 	elsif ($command[0] eq "GETSLAVES") { print "RETURN " . getslaves(); } 
-	elsif ($command[0] eq "LOGINSLAVE") { loginslave($command[1]); print "RETURN 1"; } #Note to add error detection!!!
-	elsif ($command[0] eq "CRACKIP") { crackip($command[1]); print "RETURN 1"; } #Note to add error detection!!!
+	elsif ($command[0] eq "LOGINSLAVE") { loginslave($command[1]); print "RETURN 1"; }
+	elsif ($command[0] eq "CRACKIP") { crackip($command[1]); print "RETURN 1"; } 
         elsif ($command[0] eq "EXTRACT_LOGS") { print "RETURN " . extract_logs($command[1]); }
 	elsif ($command[0] eq "EXTRACT_LOGS_BANK") { print "RETURN " . extract_logs_bank($command[1]); }
 	elsif ($command[0] eq "CLEAR_LOGS") { clear_logs($command[1]); print "RETURN 1";}
 	elsif ($command[0] eq "CLEAR_LOCAL_LOGS") { clear_local_logs(); print "RETURN 1"; }
 	elsif ($command[0] eq "UPL_LIST") { print "RETURN " . upl_list($command[1]); }
+	elsif ($command[0] eq "VIR_INST_LIST") { print "RETURN " . virinstlist($command[1]); }
+	elsif ($command[0] eq "VIR_INST") { print "RETURN " . virinst($command[1], $command[2]); }
 	elsif ($command[0] eq "UPLOAD") { upload($command[1], $command[2]); print "RETURN 1";}
 	else { print "RETURN 0" } 
         last if /QUIT/i; # Drop connection on QUIT
-     }
+}
 }
 shbot->run(port => 9988);

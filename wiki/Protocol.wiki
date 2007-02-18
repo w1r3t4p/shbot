@@ -31,6 +31,10 @@ Takes IP and ID provided by UPL_LIST. Uploads a file.
 Lists AV scanners you can run.
 === AV_RUN ===
 Takes IP and ID provided by AV_LIST. Runs av scanner.
+=== VIR_INST_LIST ===
+Lists viruses you could possibly install
+=== VIR_INST ===
+Takes IP and ID. Installs a virus.
 === CAPRET ===
 Returns the code for a send captcha
 

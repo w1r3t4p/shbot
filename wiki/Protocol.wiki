@@ -25,10 +25,12 @@ Returns IPs in current machines logs, takes IP as param.
 Returns a list of bank #s from the current machines logs, machines IP as param.
 === UPL_LIST ===
 Returns a list of software that could possibly be uploaded in the format id:name, comma separated.
-=== HUNT ===
-Broken, non working thing that will make the bot go into auto mode, all too destructive.
 === UPLOAD ===
-Broken, will upload to machines.
+Takes IP and ID provided by UPL_LIST. Uploads a file.
+=== AV_LIST ===
+Lists AV scanners you can run.
+=== AV_RUN ===
+Takes IP and ID provided by AV_LIST. Runs av scanner.
 === CAPRET ===
 Returns the code for a send captcha
 

@@ -13,8 +13,7 @@ def login ():
 	print data
 	if data == 1:
 		print 'Login Succeeded!'
-		if clearlogonlogin == 1
-			clearlocallogs()
+		clearlocallogs()
 	else:
 		print 'Login Failed!'
 
@@ -31,27 +30,24 @@ def clearlocallogs ():
 
 def menu():
 	print 'Generating Main Menu'
-	print 'Welcome to the Slave-Hacker!\n
-	Please note that this software is still EXPERIMENTAL, and may cause unwanted problems if misused.\n
+	print "Welcome to the Slave-Hacker!\n"
+	print "Please note that this software is still very fucked up, don't expect it to like work anything.\n"
+# C'mon, you can write more improfessionaly than that =)
+	print "This is the main menu."
 
-	This is the main menu.
+	print "1 - Log in to your account."
+	print "2 - Clear local logs."
+	print "3 - Change Settings"
 
-	1 - Log in to your account.
-	2 - Clear local logs.
-	3 - Change Settings'
-
-	choice = int_input('Please select one of the above: ')
-	if choice = 1:
+	choice = raw_input('Please select one of the above: ')
+	if choice == 1:
 		login()
-	elif choice = 2:
+	elif choice == 2:
 		clearlocallogs()
-	elif choice = 3:
+	elif choice == 3:
 		changesettings()
 	else:
 		print 'Invalid option'
-		menu()
-	else:
-		print 'Invalid Option.'
 		menu()
 host = 'localhost'
 port = 9988

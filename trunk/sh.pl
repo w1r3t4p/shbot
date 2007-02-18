@@ -31,7 +31,7 @@ sub crep {
 sub captcha {
 	if ($mech->content( format => "text" ) =~ /repeat the numbers/) {
 		$mech->get ("http://www.slavehack.com/workimage.php");
-		print "CAPTCHA" .  # $mech->content; removed for testing, since client is _not_ working yet.
+		print "CAPTCHA\n"; # . $mech->content; removed for testing, since client is _not_ working yet.
 		$mech->save_content ("workimage.png");
  		system ("display workimage.png");
 		$mech->back;
@@ -94,7 +94,6 @@ sub clear_logs_ip {
         captcha();
         my ($curip, $logtext);
         if ($mech->content =~ m/\[(\d*.\d*.\d*.\d*)\]/) { $curip = $1; }
-        print $curip;
 	if ($mech->content =~ /<textarea class=form name=logedit rows=35 cols=100>(.*)<\/textarea>/s) { $logtext = $1; }
         $logtext =~ s/$curip//g;
         $mech->submit_form(
@@ -185,7 +184,6 @@ sub virinst {
 	my $iptoinst = shift;
 	my $idtoinst = shift;
 	$mech->get( "http://www.slavehack.com/index2.php?page=internet&gow=$iptoinst&action=files&aktie=install&virus=$idtoinst" );
-	print $mech->content;
 	runtimer();
 	return 1;
 }
@@ -205,8 +203,7 @@ sub runav {
 	my $iptoinst = shift;
 	my $idtoinst = shift;
 	$mech->get( "http://www.slavehack.com/index2.php?page=internet&gow=$iptoinst&action=files&aktie=scan&scan=$idtoinst" );
-	print $mech->content;
-	runtimer();
+	runtimer();	
 	return 1;
 }
 
@@ -218,21 +215,21 @@ sub process_request {
 	my @command = split(/ /, $_);
 	if ($command[0] eq "LOGIN") { print "RETURN " . login($command[1], $command[2]). "\n"; }
 	elsif ($command[0] eq "CAPRET") { crep($command[1]); } 
-	elsif ($command[0] eq "GETSLAVES") { print "RETURN " . getslaves(); } 
-	elsif ($command[0] eq "LOGINSLAVE") { loginslave($command[1]); print "RETURN 1"; }
-	elsif ($command[0] eq "CRACKIP") { crackip($command[1]); print "RETURN 1"; } 
-        elsif ($command[0] eq "EXTRACT_LOGS") { print "RETURN " . extract_logs($command[1]); }
-	elsif ($command[0] eq "EXTRACT_LOGS_BANK") { print "RETURN " . extract_logs_bank($command[1]); }
-	elsif ($command[0] eq "CLEAR_LOGS") { clear_logs($command[1]); print "RETURN 1";}
-	elsif ($command[0] eq "CLEAR_LOGS_IP") { clear_logs_ip($command[1]); print "RETURN 1";}
-	elsif ($command[0] eq "CLEAR_LOCAL_LOGS") { clear_local_logs(); print "RETURN 1"; }
-	elsif ($command[0] eq "UPL_LIST") { print "RETURN " . upl_list($command[1]); }
-	elsif ($command[0] eq "VIR_INST_LIST") { print "RETURN " . virinstlist($command[1]); }
-	elsif ($command[0] eq "VIR_INST") { print "RETURN " . virinst($command[1], $command[2]); }
-	elsif ($command[0] eq "AV_LIST") { print "RETURN " . avlist($command[1]); }
-	elsif ($command[0] eq "AV_RUN") { print "RETURN " . runav($command[1], $command[2]); }
-	elsif ($command[0] eq "UPLOAD") { upload($command[1], $command[2]); print "RETURN 1";}
-	else { print "RETURN 0" } 
+	elsif ($command[0] eq "GETSLAVES") { print "RETURN " . getslaves() . "\n"; } 
+	elsif ($command[0] eq "LOGINSLAVE") { loginslave($command[1]); print "RETURN 1\n"; }
+	elsif ($command[0] eq "CRACKIP") { crackip($command[1]); print "RETURN 1\n"; } 
+        elsif ($command[0] eq "EXTRACT_LOGS") { print "RETURN " . extract_logs($command[1]) . "\n"; }
+	elsif ($command[0] eq "EXTRACT_LOGS_BANK") { print "RETURN " . extract_logs_bank($command[1]) . "\n"; }
+	elsif ($command[0] eq "CLEAR_LOGS") { clear_logs($command[1]); print "RETURN 1\n";}
+	elsif ($command[0] eq "CLEAR_LOGS_IP") { clear_logs_ip($command[1]);}
+	elsif ($command[0] eq "CLEAR_LOCAL_LOGS") { clear_local_logs(); print "RETURN 1\n"; }
+	elsif ($command[0] eq "UPL_LIST") { print "RETURN " . upl_list($command[1]) . "\n"; }
+	elsif ($command[0] eq "VIR_INST_LIST") { print "RETURN " . virinstlist($command[1]) . "\n"; }
+	elsif ($command[0] eq "VIR_INST") { print "RETURN " . virinst($command[1], $command[2]) . "\n"; }
+	elsif ($command[0] eq "AV_LIST") { print "RETURN " . avlist($command[1]) . "\n"; }
+	elsif ($command[0] eq "AV_RUN") { print "RETURN " . runav($command[1], $command[2]) . "\n"; }
+	elsif ($command[0] eq "UPLOAD") { upload($command[1], $command[2]); print "RETURN 1\n";}
+	else { print "RETURN 0\n" } 
         last if /QUIT/i; # Drop connection on QUIT
 }
 }

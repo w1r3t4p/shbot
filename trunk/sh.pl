@@ -1,17 +1,17 @@
 #!/usr/bin/perl
 package shbot;
-
 use base qw(Net::Server);
 use warnings;
 use WWW::Mechanize;
+use strict;
 my $mech = WWW::Mechanize->new();
 $mech->agent_alias( 'Windows IE 6' );
 sub runtimer {
-	if ($mech->content =~ /if \(i\d*<=\((\d*)\)/) { 
+	if ($mech->content =~ /if \(i\d+<=\((\d+)\)/) { 
 		print "TIMER $1" . "\n";
 		sleep($1);
 	} else { return 0; }
-	if ($mech->content =~ /(WorkForm\d*)/) { 
+	if ($mech->content =~ /(WorkForm\d+)/) { 
 		$mech->submit_form( form_name =>  $1 );
 	} else { return 0; }
 	return 1;
@@ -61,7 +61,7 @@ sub getslaves {
 	$mech->get( 'http://www.slavehack.com/index2.php?page=slaves' );
 	captcha();
 	my $toret;
-	foreach ($mech->content( format => "text" ) =~ m/(\d*\.\d*\.\d*\.\d*)/g) { 
+	foreach ($mech->content( format => "text" ) =~ m/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/g) { 
 		$toret = $toret . " " . $_;
 	}
 	return $toret;
@@ -93,7 +93,7 @@ sub clear_logs_ip {
         $mech->get( "http://www.slavehack.com/index2.php?page=internet&gow=$iptoclear&action=log" );
         captcha();
         my ($curip, $logtext);
-        if ($mech->content =~ m/\[(\d*.\d*.\d*.\d*)\]/) { $curip = $1; }
+        if ($mech->content =~ m/\[m/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/g]/) { $curip = $1; }
 	if ($mech->content =~ /<textarea class=form name=logedit rows=35 cols=100>(.*)<\/textarea>/s) { $logtext = $1; }
         $logtext =~ s/$curip//g;
         $mech->submit_form(
@@ -126,7 +126,7 @@ sub extract_logs {
 	captcha();
 	my $toret;
 	if ($mech->content =~ /<textarea class=form name=logedit rows=35 cols=100>(.*)<\/textarea>/s) {
-		foreach ($1 =~ m/(\d*\.\d*\.\d*\.\d*)/g) {
+		foreach ($1 =~ m/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/g) {
 			$toret = $toret . " " . $_;
 		}
 	}
@@ -140,7 +140,7 @@ sub extract_logs_bank {
         captcha();
 	my $toret;
         if ($mech->content =~ /<textarea class=form name=logedit rows=35 cols=100>(.*)<\/textarea>/s) {
-                foreach ($1 =~ m/(\d\d\d\d\d\d)/g) {
+                foreach ($1 =~ m/(\d{6})/g) {
                         $toret = $toret . " " . $_;
                 }
         }

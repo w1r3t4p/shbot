@@ -3,7 +3,7 @@ use IO::Socket::INET;
 my $client;
 my $attackip = shift;
 $client = IO::Socket::INET->new("localhost:9988");
-runcmd("LOGIN ultramancool hexalintbag\n") . "\n";
+runcmd("LOGIN ... ...") . "\n";
 
 my $timer = runcmd("CRACKIP $attackip\n");
 if ($timer =~ /TIMER (\d*)/) { print $1 . "\n"; sleep $1;}

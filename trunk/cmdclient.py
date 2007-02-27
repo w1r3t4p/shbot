@@ -1,8 +1,4 @@
 import socket
-
-#Settings
-clearlogonlogin = 1
-
 def login ():
 	print 'Please enter your login information:'
 	login = raw_input('Username:')
@@ -14,30 +10,41 @@ def login ():
 	if data == 1:
 		print 'Login Succeeded!'
 		clearlocallogs()
+		loggedin = 1
 	else:
 		print 'Login Failed!'
-
+		menu()
 
 def clearlocallogs ():
-	s.send('CLEAR_LOCAL_LOGS\n')
-	data = s.recv(1000000)
-	if data == 1:
-		print 'Log-clear succeeded'
-		menu()
+	if loggedin = 1:
+		s.send('CLEAR_LOCAL_LOGS\n')
+		data = s.recv(1000000)
+		if data == 1:
+			print 'Log-clear succeeded'
+			menu()
+		else:
+			print 'Log-clear failed'
+			menu():
 	else:
-		print 'Log-clear failed'
-		menu()
+		print 'Failed. Are you sure you are logged in?'
 
-def menu():
+def getslaves ():
+	if loggedin = 1:
+		s.send('GETSLAVES\n')
+		data = s.recv(1000000)
+		print data
+	else:
+		print 'Failed. Are you sure you are logged in?'
+
+def menu ():
 	print 'Generating Main Menu'
 	print "Welcome to the Slave-Hacker!\n"
 	print "Please note that this software is still very fucked up, don't expect it to like work anything.\n"
-# C'mon, you can write more improfessionaly than that =)
 	print "This is the main menu."
 
 	print "1 - Log in to your account."
 	print "2 - Clear local logs."
-	print "3 - Change Settings"
+	print "3 - Get Slaves"
 
 	choice = raw_input('Please select one of the above: ')
 	if choice == 1:
@@ -45,12 +52,14 @@ def menu():
 	elif choice == 2:
 		clearlocallogs()
 	elif choice == 3:
-		changesettings()
+		getslaves()
 	else:
 		print 'Invalid option'
 		menu()
 host = 'localhost'
 port = 9988
+
+loggedin = 0
 
 print 'Creating socket...'
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

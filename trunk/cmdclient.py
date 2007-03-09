@@ -16,7 +16,7 @@ def login ():
 		menu()
 
 def clearlocallogs ():
-	if loggedin = 1:
+	if loggedin == 1:
 		s.send('CLEAR_LOCAL_LOGS\n')
 		data = s.recv(1000000)
 		if data == 1:
@@ -24,12 +24,12 @@ def clearlocallogs ():
 			menu()
 		else:
 			print 'Log-clear failed'
-			menu():
+			menu()
 	else:
 		print 'Failed. Are you sure you are logged in?'
 
 def getslaves ():
-	if loggedin = 1:
+	if loggedin == 1:
 		s.send('GETSLAVES\n')
 		data = s.recv(1000000)
 		print data

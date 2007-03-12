@@ -1,6 +1,21 @@
 #summary Protocol details between client and server.
 #labels Phase-Design
 
+
+=== Things that need to be implemented ===
+Updating of Slave-tasks.
+
+DDoSing support.
+
+VPC IP displaying.
+
+IP Reset.
+
+Password Reset.
+
+Group Server Managing support.
+
+
 = Introduction =
 This page is a quick protocol idea drafting page for shbot.
 
@@ -59,10 +74,3 @@ Passes back the data that has actually been requested, this is good. :)
 ||LOGINSLAVE 2.2.2.2 ||RETURN 1||
 }}}
 
-=== Things that need to be implemented ===
-Updating of Slave-tasks
-DDoSing support
-VPC IP displaying
-IP Reset
-Password Reset
-Group Server Managing support

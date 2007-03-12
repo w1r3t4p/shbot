@@ -58,3 +58,11 @@ Passes back the data that has actually been requested, this is good. :)
 ||CRACKIP 2.2.2.2 || RETURN 1||
 ||LOGINSLAVE 2.2.2.2 ||RETURN 1||
 }}}
+
+=== Things that need to be implemented ===
+Updating of Slave-tasks
+DDoSing support
+VPC IP displaying
+IP Reset
+Password Reset
+Group Server Managing support

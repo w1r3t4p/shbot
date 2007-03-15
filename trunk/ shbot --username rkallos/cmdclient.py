@@ -27,6 +27,7 @@ def clearlocallogs ():
 			menu()
 	else:
 		print 'Failed. Are you sure you are logged in?'
+		menu()
 
 def getslaves ():
 	if loggedin == 1:
@@ -35,6 +36,7 @@ def getslaves ():
 		print data
 	else:
 		print 'Failed. Are you sure you are logged in?'
+		menu()
 
 def loginslave ():
 	if loggedin == 1:
@@ -79,10 +81,10 @@ def crackip ():
 			print 'Crack failed. Would you like to retry?
 			print '1 - Yes.'
 			print '2 - No.'
-			choice = raw_input("Please choose: "
-			if choice == 1:
+			choice = input("Please choose: "
+			if choice = 1:
 				rcrackip(crackip)
-			elif choice == 2:
+			elif choice = 2:
 				menu()
 		else:
 			print 'Failed. Something may have screwed up.'
@@ -99,14 +101,14 @@ def rcrackip (newslaveip):
 		cloginslave(crackip)
 	elif data == 0:
 		print "Crack failed. Would you like to retry?
-		choice = raw_input("Please choose: "
-		if choice == 1:
+		choice = input("Please choose: "
+		if choice = 1:
 			rcrackip(crackip)
-		elif choice == 2:
+		elif choice = 2:
 			menu()
 	else:
 		print 'Failed. Something may have screwed up.'
-		menu
+		menu()
 
 def cloginslave (newslaveip):
 	s.send('LOGINSLAVE ' + newslaveip + '\n')
@@ -128,9 +130,14 @@ def slavemenu ():
 		else:
 			print "You are connected to: " + ip
 			print "Please select the number corresponding to the action you want to do."
-			print "1 - Clear Slave's Log."
-			print "2 - Clear your IP from a slave's log."
-			print "3 - Log out of Slave."
+			print "1 - Clear your IP from a slave's log."
+			print "2 - Log out of Slave."
+			schoice = input("Please choose: ")
+			if schoice == 1:
+				clearslavelogs()
+			if schoice == 2:
+				menu()
+				
 	else:
 		print "Failed to generate Slave-menu. Are you sure you are logged in?"
 		menu()
@@ -144,7 +151,7 @@ def menu ():
 	print "4 - Connect to an IP."
 	print "5 - Crack an IP."
 
-	choice = raw_input('Please select one of the above: ')
+	choice = input('Please select one of the above: ')
 	if choice == 1:
 		login()
 	elif choice == 2:
